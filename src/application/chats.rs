@@ -445,11 +445,7 @@ impl NativeApplication {
         action: ChatRowAction,
         sender: ComponentSender<Self>,
     ) {
-        let Some(known) = self
-            .chat_snapshots
-            .iter()
-            .find(|known| known.id == chat)
-            .cloned()
+        let Some(known) = self.chat_snapshots.iter().find(|known| known.id == chat).cloned()
         else {
             return;
         };
@@ -482,9 +478,7 @@ impl NativeApplication {
             }
             // Only offered for the open chat, so the handlers that read the
             // open chat apply to it.
-            ChatRowAction::Close
-                if self.open_chat.active_chat.as_deref() == Some(chat.as_str()) =>
-            {
+            ChatRowAction::Close if self.open_chat.active_chat.as_deref() == Some(chat.as_str()) => {
                 sender.input(Input::CloseChat);
             }
             ChatRowAction::CopyTranscript
@@ -687,8 +681,7 @@ impl NativeApplication {
     ) {
         // The confirmation may come from the chat list's menu, for a chat
         // that is not open; it only has to still be in the list.
-        if self.active_account != account
-            || !self.chat_snapshots.iter().any(|known| known.id == chat)
+        if self.active_account != account || !self.chat_snapshots.iter().any(|known| known.id == chat)
         {
             return;
         }

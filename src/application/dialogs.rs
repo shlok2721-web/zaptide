@@ -1213,7 +1213,9 @@ pub(super) fn show_full_avatar_dialog(
     title: &str,
     path: &std::path::Path,
 ) {
-    let Ok(texture) = gtk::gdk::Texture::from_filename(path) else {
+    // Profile pictures come from the network, so they go through the bounded
+    // decoder instead of GDK's own loaders.
+    let Some(texture) = crate::native_media_widgets::avatar_texture(path) else {
         return;
     };
     let picture = gtk::Picture::for_paintable(&texture);
